@@ -45,11 +45,11 @@ class VendingMachine
 
   end
 
-  def put_drinks(drink)
-     
+  def put_drinks(drink: 0, number: 0)
+    DRINKS[drink][:stock] += number.deliver_drinks
   end
 
-  def drinks_availavle
+  def drinks_available
     DRINKS.each do |drink|
       a = drink[:price]
       b = drink[:stock]
@@ -90,8 +90,16 @@ class Money
   end
 end
 
-class  Drinks
-  def cola
+class Delivery_Drinks
 
+  DELIVERY_NUMBERS = [1, 5, 10, 50, 100]
+
+  def initialize(number)
+    @attribute = number
+    raise unless DELIVERY_NUMBERS.include?(number)
+  end
+
+  def deliver_drinks
+    @attribute
   end
 end

@@ -9,6 +9,21 @@
 # A = [1,2,3,4,5]
 # p times = A.inject{|result,n| result*n}
 
-A = [:a, :b, :c]
+# A = [:a, :b, :c]
 
- p A.each_with_index.map {|n,i| {"#{n}": i+1}}
+#  p A.each_with_index.map {|n,i| {"#{n}": i+1}}
+
+product = {:lemon=>145, :aplle=>180, :orange=>170, :tomato=>120, :grape=>140}
+new_item = { peach: 160 }
+
+# と言う二つの変数を使って、以下の出力結果を得てください
+
+# 出力結果１
+# => [:lemon, :aplle, :orange, :tomato, :grape]
+p product.keys
+# 出力結果２
+# => {:lemon=>145, :aplle=>180, :orange=>170, :tomato=>120, :grape=>140, :peach=>160}
+p product.merge(new_item)
+# 出力結果３
+# => {:aplle=>180, :orange=>170}
+p product.select {|k,v| v >= new_item.values[0]}
