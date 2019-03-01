@@ -45,7 +45,7 @@ class VendingMachine
 
   end
 
-  def put_drinks(drink: 0, number: 0)
+  def put_drinks(drink = 0, number = DeliveryDrink.new(1))
     DRINKS[drink][:stock] += number.deliver_drinks
   end
 
@@ -90,7 +90,7 @@ class Money
   end
 end
 
-class Delivery_Drinks
+class DeliveryDrink
 
   DELIVERY_NUMBERS = [1, 5, 10, 50, 100]
 
