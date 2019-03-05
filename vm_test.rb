@@ -1,30 +1,29 @@
+require 'pry'
+
 class VendingMachine
     # ステップ０　お金の投入と払い戻しの例コード
     # ステップ１　扱えないお金の例コード
-  
+
     # 10円玉、50円玉、100円玉、500円玉、1000円札を１つずつ投入できる。
     # Money
     MONEY = [10, 50, 100, 500, 1000].freeze
     # ステップ２ ジュースの管理
-    DRINKS = [{name:'cola',price:120,stock:0},
-              {name:'redbull',price:200,stock:0},
-              {name:'water',price:100,stock:0}
-              ]
-  
+    DRINKS_TABLE = []
+
+
     # （自動販売機に投入された金額をインスタンス変数の @slot_money に代入する）
     def initialize
       # 最初の自動販売機に入っている金額は0円
       @slot_money = 0
       @sales_amount = 0
-      @drink_menu = []
     end
-  
+
     # 投入金額の総計を取得できる。
     def current_slot_money
       # 自動販売機に入っているお金を表示する
       @slot_money
     end
-  
+
     # 10円玉、50円玉、100円玉、500円玉、1000円札を１つずつ投入できる。
     # 投入は複数回できる。
     # Money
@@ -35,7 +34,7 @@ class VendingMachine
       # 自動販売機にお金を入れる
       @slot_money += money.throw_into
     end
-  
+
     # 払い戻し操作を行うと、投入金額の総計を釣り銭として出力する。
     # Money
     def return_money
@@ -43,15 +42,38 @@ class VendingMachine
       puts @slot_money
       # 自動販売機に入っているお金を0円に戻す
       @slot_money = 0
-  
+
     end
-  
+
+    def add_drink_table(drink)
+      if drink.cola
+        DRINKS_TABLE << drink.cola
+      elsif drink.redbull
+        DRINKS_TABLE << drink.redbull
+      elsif drink.water
+        DRINKS_TABLE << drink.water
+      else
+        puts "ダメです"
+      end
+
+      # if drink = Drink.new("コーラ")
+      #   DRINKS_TABLE << drink.redbull
+      # elsif drink = Drink.new("レッドブル")
+      #   DRINKS_TABLE << drink.redbull
+      # elsif drink = Drink.new("水")
+      #   DRINKS_TABLE << drink.redbull
+      # else
+      #   puts "ダメです"
+      # end
+
+    end
+
     def put_drinks(drink = 0, number = DeliveryDrink.new(1))
-      DRINKS[drink][:stock] += number.deliver_drinks
+      DRINKS_TABLE[drink][:stock] += number.deliver_drinks
     end
-  
+
     def drinks_available
-      DRINKS.each do |drink|
+      DRINKS_TABLE.each do |drink|
         a = drink[:price]
         b = drink[:stock]
         c = drink[:name]
@@ -62,17 +84,17 @@ class VendingMachine
         end
       end
     end
-  
+
     def buy_drinks
       puts "番号を選んでください"
       puts "0.コーラ　1.レッドブル　2.水"
       a = gets.to_i
-      b = DRINKS[a][:price]
-      c = DRINKS[a][:stock]
-  
+      b = DRINKS_TABLE[a][:price]
+      c = DRINKS_TABLE[a][:stock]
+
       if  @slot_money >= b && c >= 1
           puts  @sales_amount += b
-          DRINKS[a][:stock] = c - 1
+          DRINKS_TABLE[a][:stock] = c - 1
           puts "お釣り#{@slot_money -= b}"
       end
     end
@@ -91,14 +113,7 @@ class Money
     end
 end
 
-class Owner
-    WHOLESALE_DRINKS = [{name:'cola',price:60},
-                        {name:'redbull',price:100},
-                        {name:'water',price:50}
-                        ]
-    def purchase_drinks
-    end
-end
+
 
 class Drink
 
@@ -106,28 +121,20 @@ class Drink
               {name:'redbull',price:200,stock:0},
               {name:'water',price:100,stock:0}
               ]
+    MENU = ["コーラ", "レッドブル", "水"]
 
     def initialize(drink)
-        # case drink
-        # when DRINKS[0]
-        #  @cola = DRINKS[0]
-        # when drink
-        #  @redbull = DRINKS[1]
-        # when DRINKS[2]
-        #  @water =DRINKS[2]
-        # else
-        #  raise
-        # end
 
-        if drink == DRINKS[0]
+      raise unless MENU.include?(drink)
+
+        if drink == "コーラ"
             @cola = DRINKS[0]
-            elsif drink == DRINKS[1]
+            elsif drink == "レッドブル"
             @redbull = DRINKS[1]
-            elsif drink == DRINKS[2]
+            elsif drink == "水"
             @water =DRINKS[2]
-            else
-            raise
         end
+
     end
 
     def cola
@@ -141,6 +148,7 @@ class Drink
     def water
       @water
     end
+
 end
 
 class DeliveryDrink
