@@ -41,7 +41,7 @@ class VendingMachine
 
     end
 
-    def add_drink_table(drink)
+    def add_drink_table(drink = Drink.new("コーラ"))
       if drink.cola
         DRINKS_TABLE << drink.cola
       elsif drink.redbull
@@ -84,6 +84,7 @@ class VendingMachine
       end
     end
 end
+
 
 class Money
   POSSIBLE_MONEY = [1, 5, 10, 50, 100, 500, 1000, 5000, 10000].freeze
