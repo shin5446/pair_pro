@@ -1,9 +1,10 @@
+require './drink'
+require './money'
+
 class VendingMachine
 
     # 10円玉、50円玉、100円玉、500円玉、1000円札を１つずつ投入できる。
-    # Money
     MONEY = [10, 50, 100, 500, 1000].freeze
-    # ステップ２ ジュースの管理
     DRINKS_TABLE = []
 
 
@@ -18,6 +19,10 @@ class VendingMachine
     def current_slot_money
       # 自動販売機に入っているお金を表示する
       @slot_money
+    end
+
+    def current_sales_amount
+      @sales_amount
     end
 
     # 10円玉、50円玉、100円玉、500円玉、1000円札を１つずつ投入できる。
@@ -72,7 +77,11 @@ class VendingMachine
 
     def buy_drinks
       puts "番号を選んでください"
-      puts "0.コーラ　1.レッドブル　2.水"
+      DRINKS_TABLE.each_with_index do |drink,i|
+        name = drink[:name]
+        puts "#{i}.#{name}"
+      end
+
       a = gets.to_i
       b = DRINKS_TABLE[a][:price]
       c = DRINKS_TABLE[a][:stock]
@@ -80,72 +89,7 @@ class VendingMachine
       if  @slot_money >= b && c >= 1
           puts  @sales_amount += b
           DRINKS_TABLE[a][:stock] = c - 1
-          puts "お釣り#{@slot_money -= b}"
+          puts "投入されているお金#{@slot_money -= b}"
       end
-    end
-end
-
-
-class Money
-  POSSIBLE_MONEY = [1, 5, 10, 50, 100, 500, 1000, 5000, 10000].freeze
-
-    def initialize(money)
-      @attribute = money
-      raise unless POSSIBLE_MONEY.include?(money)
-    end
-
-    def throw_into
-      @attribute
-    end
-end
-
-
-
-class Drink
-
-    DRINKS = [{name:'cola',price:120,stock:0},
-              {name:'redbull',price:200,stock:0},
-              {name:'water',price:100,stock:0}
-              ]
-    MENU = ["コーラ", "レッドブル", "水"]
-
-    def initialize(drink)
-
-      raise unless MENU.include?(drink)
-
-        if drink == "コーラ"
-            @cola = DRINKS[0]
-            elsif drink == "レッドブル"
-            @redbull = DRINKS[1]
-            elsif drink == "水"
-            @water =DRINKS[2]
-        end
-    end
-
-    def cola
-      @cola
-    end
-
-    def redbull
-      @redbull
-    end
-
-    def water
-      @water
-    end
-
-end
-
-class DeliveryDrink
-
-    DELIVERY_NUMBERS = [1, 5, 10, 50, 100]
-
-    def initialize(number)
-      @attribute = number
-      raise unless DELIVERY_NUMBERS.include?(number)
-    end
-
-    def deliver_drinks
-      @attribute
     end
 end
