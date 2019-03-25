@@ -58,8 +58,13 @@ class VendingMachine
       end
     end
 
-    def put_drinks(drink = 0, number = DeliveryDrink.new(1))
-      DRINKS_TABLE[drink][:stock] += number.deliver_drinks
+    def put_drinks(drink_name = "コーラ", number = DeliveryDrink.new(5))
+      # DRINKS_TABLE[drink][:stock] += number.deliver_drinks
+      DRINKS_TABLE.each_with_index do |drink,i|
+        if drink[:name] == drink_name
+          DRINKS_TABLE[i][:stock] += number.deliver_drinks
+        end
+      end
     end
 
     def drinks_available
