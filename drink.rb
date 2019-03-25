@@ -7,15 +7,13 @@ class Drink
     MENU = ["コーラ", "レッドブル", "水"]
 
     def initialize(drink)
-
       raise unless MENU.include?(drink)
-
         if drink == "コーラ"
-            @cola = DRINKS[0]
-            elsif drink == "レッドブル"
-            @redbull = DRINKS[1]
-            elsif drink == "水"
-            @water =DRINKS[2]
+          @cola = DRINKS[0]
+          elsif drink == "レッドブル"
+          @redbull = DRINKS[1]
+          elsif drink == "水"
+          @water =DRINKS[2]
         end
     end
 
@@ -30,11 +28,11 @@ class Drink
     def water
       @water
     end
-
 end
 
 class DeliveryDrink
 
+    # 在庫として届けるドリンクの個数単位
     DELIVERY_NUMBERS = [1, 5, 10, 50, 100]
 
     def initialize(number)
